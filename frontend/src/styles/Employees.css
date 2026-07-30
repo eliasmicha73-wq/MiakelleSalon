@@ -1,0 +1,142 @@
+.employees-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #faf8f5 0%, #fff5f7 100%);
+  padding: 60px 20px;
+}
+
+.employees-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.employees-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  color: #8b6f6f;
+  margin-bottom: 10px;
+}
+
+.employees-header p {
+  color: #a89080;
+  font-size: 1.2rem;
+}
+
+.employees-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.employee-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+  transition: all 0.4s ease;
+  border: 1px solid #f5ebe0;
+}
+
+.employee-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+}
+
+.employee-image {
+  height: 300px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5ebe0 0%, #fff5f7 100%);
+}
+
+.employee-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.employee-card:hover .employee-image img {
+  transform: scale(1.05);
+}
+
+.employee-info {
+  padding: 25px;
+  text-align: center;
+}
+
+.employee-info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: #8b6f6f;
+  margin-bottom: 5px;
+}
+
+.role {
+  color: #d4af37;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+
+.specialty, .experience {
+  color: #a89080;
+  font-size: 0.9rem;
+  margin: 8px 0;
+}
+
+.book-employee-btn {
+  margin-top: 15px;
+  padding: 12px 30px;
+  background: linear-gradient(135deg, #d4af37 0%, #e8d5a3 100%);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.book-employee-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.department-section {
+  margin-bottom: 60px;
+  padding: 0 20px;
+}
+
+.department-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: #8b6f6f;
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+
+.department-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #d4af37, transparent);
+  border-radius: 2px;
+}
+
+
+.employees-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}

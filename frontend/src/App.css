@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  background-color: #faf8f5;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #faf8f5;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
