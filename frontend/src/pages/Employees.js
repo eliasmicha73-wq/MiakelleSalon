@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import "../styles/Employees.css";
 
 function Employees() {
@@ -14,7 +14,7 @@ function Employees() {
 
   const fetchEmployees = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/employees');
+      const response = await api.get('/api/employees'); 
       const employees = response.data.data;
 
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios"; 
+import api from "../api";
 import "../styles/Contact.css";
 
 function Contact() {
@@ -26,7 +26,7 @@ function Contact() {
 
     try {
       
-      const response = await axios.post('http://localhost:5000/api/contact', formData);
+     const response = await api.post('/api/contact', formData); 
       
       if (response.data.success) {
         setSuccessMessage("✅ Thank you for your message! We'll get back to you soon.");

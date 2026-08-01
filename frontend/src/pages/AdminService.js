@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";
 import "../styles/AdminService.css";
 
 function AdminService() {
@@ -27,7 +27,7 @@ function AdminService() {
     setSuccessMessage("");
 
     try {
-      const response = await axios.post('http://localhost:5000/api/services', formData);
+      const response = await api.post('/api/services', formData);
       
       if (response.data.success) {
         setSuccessMessage("✅ Service added successfully!");

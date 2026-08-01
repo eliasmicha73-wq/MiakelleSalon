@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import "../styles/Service.css";
 
 const categories = [
@@ -33,7 +33,7 @@ function Service() {
 
   const fetchServices = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/services');
+      const response = await api.get('/api/services'); 
       setServices(response.data.data || []);
     } catch (error) {
       console.error('Error fetching services:', error);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+import api from "../api";
 import "../styles/Booking.css";
 
 function Booking() {
@@ -47,8 +47,8 @@ function Booking() {
   const fetchData = async () => {
     try {
       const [servicesRes, employeesRes] = await Promise.all([
-        axios.get('http://localhost:5000/api/services'),
-        axios.get('http://localhost:5000/api/employees')
+        api.get('/api/services'),   
+        api.get('/api/employees')   
       ]);
       setServices(servicesRes.data.data || []);
       setEmployees(employeesRes.data.data || []);
@@ -108,7 +108,7 @@ function Booking() {
     setErrorMessage("");
 
     try {
-      await axios.post('http://localhost:5000/api/bookings', formData);
+      await api.post('/api/bookings', formData); 
       setBookingSuccess(true);
       setTimeout(() => {
         navigate('/');
