@@ -220,6 +220,72 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 // ==========================================
+// مؤقت: API لإنشاء الجداول في قاعدة البيانات (Run Once)
+// ==========================================
+app.get('/api/init-db', async (req, res) => {
+  try {
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        role VARCHAR(20) DEFAULT 'user',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+      
+      CREATE TABLE IF NOT EXISTS services (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(100) NOT NULL,
+        category VARCHAR(50) NOT NULL,
+        from_price DECIMAL(10, 2) NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        duration VARCHAR(50) NOT NULL,
+        session_price DECIMAL(10, 2) NOT NULL,
+        image VARCHAR(255) DEFAULT ''
+      );
+      
+      CREATE TABLE IF NOT EXISTS employees (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        role VARCHAR(100) NOT NULL,
+        department VARCHAR(50) NOT NULL,
+        specialty VARCHAR(200),
+        experience VARCHAR(100),
+        image VARCHAR(255) DEFAULT ''
+      );
+      
+      CREATE TABLE IF NOT EXISTS bookings (
+        id SERIAL PRIMARY KEY,
+        customer_name VARCHAR(100) NOT NULL,
+        customer_phone VARCHAR(50) NOT NULL,
+        customer_email VARCHAR(100),
+        service_id INTEGER REFERENCES services(id),
+        employee_id INTEGER REFERENCES employees(id),
+        booking_date DATE NOT NULL,
+        booking_time VARCHAR(20) NOT NULL,
+        notes TEXT,
+        status VARCHAR(20) DEFAULT 'pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS contact_messages (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        subject VARCHAR(200) NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+    res.json({ success: true, message: "✅ Database tables created successfully!" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+// ==========================================
 // Start Server
 // ==========================================
 const PORT = process.env.PORT || 5000;
