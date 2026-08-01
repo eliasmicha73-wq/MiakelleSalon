@@ -15,7 +15,7 @@ function Navbar() {
         <Link to="/service" className={location.pathname === "/service" ? "active" : ""}>Service</Link>
         <Link to="/booking" className={location.pathname === "/booking" ? "active" : ""}>Booking</Link>
         <Link to="/employees" className={location.pathname === "/employees" ? "active" : ""}>Employees</Link>
-        <Link to="/admin-service" className={location.pathname === "/admin-service" ? "active" : ""}>Add Service</Link> {/* إضافة الرابط */}
+        <Link to="/admin-service" className={location.pathname === "/admin-service" ? "active" : ""}>Add Service</Link> 
         <Link to="/contact" className={location.pathname === "/contact" ? "active" : ""}>Contact</Link>
       </div>
     </nav>

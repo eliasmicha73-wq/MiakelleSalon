@@ -54,7 +54,7 @@ app.post('/api/services', async (req, res) => {
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [title, category, fromPrice, price, duration, sessionPrice, image || '']
     );
-    res.status(201).json({ success: true, message: 'تم إضافة الخدمة بنجاح', id: result.insertId });
+    res.status(201).json({ success: true, message: 'Service added successfully!', id: result.insertId });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -99,7 +99,7 @@ app.post('/api/bookings', async (req, res) => {
   try {
     const { name, phone, service, employee, date, time, notes } = req.body;
 
-    // check time not booking for thr same employees
+    // check time not booking for the same employees
     if (employee) {
       const [existing] = await db.query(
         'SELECT * FROM bookings WHERE employee_id = ? AND booking_date = ? AND booking_time = ? AND status != "cancelled"',
@@ -181,7 +181,7 @@ app.post('/api/services', async (req, res) => {
       id: result.insertId 
     });
   } catch (error) {
-    console.error("Database Error in POST /api/services:", error); // هذا السطر مهم جداً لمعرفة الخطأ
+    console.error("Database Error in POST /api/services:", error); 
     res.status(500).json({ success: false, message: error.message });
   }
 });

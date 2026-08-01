@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios"; // تأكد من استيراد axios
+import axios from "axios"; 
 import "../styles/Contact.css";
 
 function Contact() {

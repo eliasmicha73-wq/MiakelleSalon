@@ -181,8 +181,8 @@
   transform: scale(1.05);
 }
 
-/* تعديل الأيقونة القديمة */
+/* Edit old icon   */
 .service-icon {
-  display: none; /* إخفاء الأيقونات القديمة */
+  display: none; /* Hide ols icon   */
 }
 
