@@ -18,15 +18,19 @@ function Booking() {
     name: '', phone: '', service: preselectedService || '', employee: preselectedEmployee || '', date: '', time: '', notes: ''
   });
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // ✅ أبقينا المتغير
   const [submitting, setSubmitting] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => { fetchData(); }, []);
+  useEffect(() => { 
+    fetchData(); 
+  }, []);
 
   useEffect(() => {
-    if (services.length > 0 && employees.length > 0) { filterData(); }
+    if (services.length > 0 && employees.length > 0) { 
+      filterData(); 
+    }
   }, [services, employees, serviceCategory, employeeDepartment]);
 
   const fetchData = async () => {
@@ -41,7 +45,7 @@ function Booking() {
       console.error('Error fetching data:', error);
       setErrorMessage("Error loading data from backend.");
     } finally {
-      setLoading(false);
+      setLoading(false); // ✅ استخدمنا المتغير هنا
     }
   };
 
@@ -94,6 +98,8 @@ function Booking() {
       setSubmitting(false);
     }
   };
+
+
 
   return (
     <div className="booking-page">
