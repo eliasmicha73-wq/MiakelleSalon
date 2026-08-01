@@ -19,11 +19,7 @@ function Service() {
 
   useEffect(() => {
     fetchServices();
-    
-    
     const categoryFromUrl = searchParams.get('category');
-    
-    
     if (categoryFromUrl && ['hair', 'makeup', 'wax', 'nails'].includes(categoryFromUrl)) {
       setActiveCategory(categoryFromUrl);
     } else {
@@ -33,7 +29,7 @@ function Service() {
 
   const fetchServices = async () => {
     try {
-      const response = await api.get('/api/services'); 
+      const response = await api.get('/api/services');
       setServices(response.data.data || []);
     } catch (error) {
       console.error('Error fetching services:', error);
@@ -46,15 +42,10 @@ function Service() {
     
   const handleBookService = (serviceId, serviceName, serviceCategory) => {
     navigate("/booking", { 
-      state: { 
-        preselectedService: serviceId,
-        preselectedServiceName: serviceName,
-        serviceCategory: serviceCategory
-      } 
+      state: { preselectedService: serviceId, preselectedServiceName: serviceName, serviceCategory: serviceCategory } 
     });
   };
 
-  
   const handleCategoryChange = (categoryId) => {
     setActiveCategory(categoryId);
     if (categoryId === 'all') {
@@ -97,10 +88,7 @@ function Service() {
               <p>${service.price} / {service.duration}</p>
               <p>${service.sessionPrice} / Session</p>
             </div>
-            <button 
-              className="book-now-btn"
-              onClick={() => handleBookService(service.id, service.title, service.category)}
-            >
+            <button className="book-now-btn" onClick={() => handleBookService(service.id, service.title, service.category)}>
               Book Now
             </button>
           </div>

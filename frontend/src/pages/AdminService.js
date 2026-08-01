@@ -4,13 +4,7 @@ import "../styles/AdminService.css";
 
 function AdminService() {
   const [formData, setFormData] = useState({
-    title: "",
-    category: "hair",
-    fromPrice: "",
-    price: "",
-    duration: "",
-    sessionPrice: "",
-    image: ""
+    title: "", category: "hair", fromPrice: "", price: "", duration: "", sessionPrice: "", image: ""
   });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -28,25 +22,13 @@ function AdminService() {
 
     try {
       const response = await api.post('/api/services', formData);
-      
       if (response.data.success) {
         setSuccessMessage("✅ Service added successfully!");
-        setFormData({
-          title: "",
-          category: "hair",
-          fromPrice: "",
-          price: "",
-          duration: "",
-          sessionPrice: "",
-          image: ""
-        });
-        
-        setTimeout(() => {
-          setSuccessMessage("");
-        }, 3000);
+        setFormData({ title: "", category: "hair", fromPrice: "", price: "", duration: "", sessionPrice: "", image: "" });
+        setTimeout(() => { setSuccessMessage(""); }, 3000);
       }
     } catch (error) {
-      setMessage("❌ An error occurred while adding the service. Check backend console.");
+      setMessage("❌ An error occurred while adding the service.");
       console.error("Frontend Error:", error);
     } finally {
       setLoading(false);
@@ -61,106 +43,47 @@ function AdminService() {
           <p>Add a new beauty service to the database</p>
         </div>
 
-        {successMessage && (
-          <div className="success-message">{successMessage}</div>
-        )}
+        {successMessage && <div className="success-message">{successMessage}</div>}
         {message && <div className="error-message">{message}</div>}
 
         <form onSubmit={handleSubmit} className="admin-form">
           <div className="form-group">
             <label>Service Title *</label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              placeholder="e.g., Bridal Hair Styling"
-              required
-            />
+            <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="e.g., Bridal Hair Styling" required />
           </div>
-
           <div className="form-group">
             <label>Category *</label>
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleChange}
-              required
-            >
+            <select name="category" value={formData.category} onChange={handleChange} required>
               <option value="hair">Hair Styling</option>
               <option value="makeup">Makeup</option>
               <option value="wax">Wax</option>
               <option value="nails">Nails</option>
             </select>
           </div>
-
           <div className="form-row">
             <div className="form-group">
               <label>From Price ($) *</label>
-              <input
-                type="number"
-                name="fromPrice"
-                value={formData.fromPrice}
-                onChange={handleChange}
-                placeholder="50"
-                min="0"
-                required
-              />
+              <input type="number" name="fromPrice" value={formData.fromPrice} onChange={handleChange} placeholder="50" min="0" required />
             </div>
-
             <div className="form-group">
               <label>Full Price ($) *</label>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                placeholder="80"
-                min="0"
-                required
-              />
+              <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="80" min="0" required />
             </div>
           </div>
-
           <div className="form-row">
             <div className="form-group">
               <label>Duration *</label>
-              <input
-                type="text"
-                name="duration"
-                value={formData.duration}
-                onChange={handleChange}
-                placeholder="e.g., 45min"
-                required
-              />
+              <input type="text" name="duration" value={formData.duration} onChange={handleChange} placeholder="e.g., 45min" required />
             </div>
-
             <div className="form-group">
               <label>Session Price ($) *</label>
-              <input
-                type="number"
-                name="sessionPrice"
-                value={formData.sessionPrice}
-                onChange={handleChange}
-                placeholder="50"
-                min="0"
-                required
-              />
+              <input type="number" name="sessionPrice" value={formData.sessionPrice} onChange={handleChange} placeholder="50" min="0" required />
             </div>
           </div>
-
           <div className="form-group">
             <label>Image URL (optional)</label>
-            <input
-              type="text"
-              name="image"
-              value={formData.image}
-              onChange={handleChange}
-              placeholder="https://example.com/image.jpg"
-            />
-            <small>Leave empty for default image</small>
+            <input type="text" name="image" value={formData.image} onChange={handleChange} placeholder="https://example.com/image.jpg" />
           </div>
-
           <button type="submit" className="submit-btn" disabled={loading}>
             {loading ? "Adding Service..." : "Add Service"}
           </button>

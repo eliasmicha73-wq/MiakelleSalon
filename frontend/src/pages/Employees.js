@@ -14,9 +14,8 @@ function Employees() {
 
   const fetchEmployees = async () => {
     try {
-      const response = await api.get('/api/employees'); 
-      const employees = response.data.data;
-
+      const response = await api.get('/api/employees');
+      const employees = response.data.data || [];
 
       const grouped = {
         hair: employees.filter(emp => emp.department === 'hair'),
@@ -52,7 +51,6 @@ function Employees() {
 
   const displayOrder = ['hair', 'makeup', 'wax', 'nails'];
 
-
   return (
     <div className="employees-page">
       <div className="employees-header">
@@ -67,7 +65,6 @@ function Employees() {
         return (
           <div key={deptKey} className="department-section">
             <h2 className="department-title">{departmentNames[deptKey]}</h2>
-            
             <div className="employees-grid">
               {members.map(emp => (
                 <div key={emp.id} className="employee-card">
@@ -83,11 +80,7 @@ function Employees() {
                     <p className="role">{emp.role}</p>
                     <p className="specialty">✨ {emp.specialty}</p>
                     <p className="experience">{emp.experience} of experience</p>
-                    
-                    <button 
-                      className="book-employee-btn"
-                      onClick={() => handleBookEmployee(emp.id, emp.name, emp.department)}
-                    >
+                    <button className="book-employee-btn" onClick={() => handleBookEmployee(emp.id, emp.name, emp.department)}>
                       Book with {emp.name.split(" ")[0]}
                     </button>
                   </div>
