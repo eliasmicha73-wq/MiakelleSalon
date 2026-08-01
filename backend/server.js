@@ -284,6 +284,118 @@ app.get('/api/init-db', async (req, res) => {
   }
 });
 
+// ==========================================
+// مؤقت: إنشاء الجداول وإضافة بيانات تجريبية
+// ==========================================
+app.get('/api/setup-database', async (req, res) => {
+  try {
+
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL,
+        role VARCHAR(20) DEFAULT 'user',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS services (
+        id SERIAL PRIMARY KEY,
+        title VARCHAR(100) NOT NULL,
+        category VARCHAR(50) NOT NULL,
+        from_price DECIMAL(10, 2) NOT NULL,
+        price DECIMAL(10, 2) NOT NULL,
+        duration VARCHAR(50) NOT NULL,
+        session_price DECIMAL(10, 2) NOT NULL,
+        image VARCHAR(255) DEFAULT ''
+      );
+    `);
+
+
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS employees (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        role VARCHAR(100) NOT NULL,
+        department VARCHAR(50) NOT NULL,
+        specialty VARCHAR(200),
+        experience VARCHAR(100),
+        image VARCHAR(255) DEFAULT ''
+      );
+    `);
+
+
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS bookings (
+        id SERIAL PRIMARY KEY,
+        customer_name VARCHAR(100) NOT NULL,
+        customer_phone VARCHAR(50) NOT NULL,
+        customer_email VARCHAR(100),
+        service_id INTEGER REFERENCES services(id),
+        employee_id INTEGER REFERENCES employees(id),
+        booking_date DATE NOT NULL,
+        booking_time VARCHAR(20) NOT NULL,
+        notes TEXT,
+        status VARCHAR(20) DEFAULT 'pending',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+  
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS contact_messages (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(100) NOT NULL,
+        subject VARCHAR(200) NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    res.json({ 
+      success: true, 
+      message: '✅ All tables created successfully! Now add sample data by visiting /api/seed-data' 
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+
+app.get('/api/seed-data', async (req, res) => {
+  try {
+  
+    await db.query(`
+      INSERT INTO services (title, category, from_price, price, duration, session_price, image) VALUES
+      ('Hair Styling', 'hair', 50.00, 80.00, '30min', 50.00, 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400'),
+      ('Bridal Makeup', 'makeup', 200.00, 300.00, '120min', 200.00, 'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400'),
+      ('Full Body Wax', 'wax', 100.00, 150.00, '90min', 100.00, 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=400'),
+      ('Manicure & Pedicure', 'nails', 60.00, 90.00, '60min', 60.00, 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400'),
+      ('Hair Color', 'hair', 150.00, 250.00, '90min', 150.00, 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400'),
+      ('Simple Makeup', 'makeup', 100.00, 150.00, '45min', 100.00, 'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=400')
+      ON CONFLICT DO NOTHING;
+    `);
+
+    
+    await db.query(`
+      INSERT INTO employees (name, role, department, specialty, experience, image) VALUES
+      ('Sarah Johnson', 'Senior Hair Stylist', 'hair', 'Coloring & Styling', '8 years', 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400'),
+      ('Emma Williams', 'Pro Makeup Artist', 'makeup', 'Bridal & Evening', '6 years', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400'),
+      ('Layla Hassan', 'Waxing Expert', 'wax', 'Full Body', '4 years', 'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=400'),
+      ('Sophia Davis', 'Nail Technician', 'nails', 'Nail Art', '5 years', 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400')
+      ON CONFLICT DO NOTHING;
+    `);
+
+    res.json({ success: true, message: '✅ Sample data added successfully!' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
 
 // ==========================================
 // Start Server
