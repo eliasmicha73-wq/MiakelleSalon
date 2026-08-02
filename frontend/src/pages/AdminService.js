@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
-import "../styles/AddService.css";
+import "../styles/AdminService.css";
 
 function AddService() {
   const navigate = useNavigate();
