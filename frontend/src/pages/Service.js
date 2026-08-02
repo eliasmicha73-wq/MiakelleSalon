@@ -29,10 +29,10 @@ function Service() {
 
   const fetchServices = async () => {
     try {
-      const response = await api.get('/api/services');
+      const response = await api.get('/api/service');
       setServices(response.data.data || []);
     } catch (error) {
-      console.error('Error fetching services:', error);
+      console.error('Error fetching service:', error);
     }
   };
 
