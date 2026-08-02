@@ -29,12 +29,11 @@ function Service() {
 
   const fetchService = async () => {
     try {
-      // 1. تعريف الرابط المباشر للسيرفر (بدون الاعتماد على api.js أو .env)
+
       const BACKEND_URL = 'https://miakelle-salon-backend.onrender.com'; 
       
       console.log('🔄 Trying to connect to:', BACKEND_URL + '/api/service');
 
-      // 2. استخدام fetch العادية لضمان وصول الطلب
       const response = await fetch(`${BACKEND_URL}/api/service`, {
         method: 'GET',
         headers: {
@@ -42,7 +41,6 @@ function Service() {
         },
       });
 
-      // 3. التأكد إنو الرد ناجح (Status 200)
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -50,7 +48,7 @@ function Service() {
       const result = await response.json();
       console.log('✅ Data Received Successfully:', result);
 
-      // 4. حفظ الداتا (لأن الـ backend بيرجعها جوا object اسمه data)
+     
       if (result.success && result.data) {
         setService(result.data);
       } else {
@@ -60,7 +58,7 @@ function Service() {
 
     } catch (error) {
       console.error('❌ CRITICAL ERROR:', error.message);
-      // هاد السطر مهم جداً عشان تعرف شو نوع الخطأ بالضبط
+      
       console.error('❌ Full Error Object:', error); 
     }
   };
