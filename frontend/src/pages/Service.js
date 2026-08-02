@@ -27,7 +27,7 @@ function Service() {
     }
   }, [searchParams]); 
 
-const fetchServices = async () => {
+const fetchService = async () => {
   try {
     const API_URL = process.env.REACT_APP_API_URL || 'https://miakelle-salon-backend.onrender.com/api';
     console.log('🔄 Trying to fetch from:', API_URL + '/service');
@@ -38,7 +38,7 @@ const fetchServices = async () => {
     console.log('✅ Response received:', data);
     
     if (data.success) {
-      setServices(data.data || []);
+      setService(data.data || []);
     } else {
       console.error('❌ API returned success: false');
     }
