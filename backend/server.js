@@ -9,9 +9,9 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:3000',
-    'http://localhost:5173', 
-    'https://miakelle.netlify.app', 
-    'https://miakelle-salon-backend.onrender.com' 
+    'http://localhost:5173',
+    'https://miakelle.netlify.app', // ⚠️ تأكد أن هذا الرابط هو رابط موقعك الفعلي على Netlify
+    'https://miakelle-salon-backend.onrender.com'
   ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
