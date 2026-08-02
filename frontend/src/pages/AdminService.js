@@ -1,100 +1,96 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import api from "../api";
 import "../styles/AdminService.css";
 
-function AddService() {
-  const navigate = useNavigate();
+function AdminService() {
   const [formData, setFormData] = useState({
-    title: '',
-    category: '',
-    price: '',
-    description: ''
+    title: "", category: "hair", fromPrice: "", price: "", duration: "", sessionPrice: "", image: ""
   });
-
-  const [submitting, setSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    setErrorMessage("");
+    setLoading(true);
+    setMessage("");
+    setSuccessMessage("");
 
     try {
-      await api.post('/api/services', formData);
-      navigate('/services');
+      const response = await api.post('/api/services', formData);
+      if (response.data.success) {
+        setSuccessMessage("✅ Service added successfully!");
+        setFormData({ title: "", category: "hair", fromPrice: "", price: "", duration: "", sessionPrice: "", image: "" });
+        setTimeout(() => { setSuccessMessage(""); }, 3000);
+      }
     } catch (error) {
-      console.error('Error adding service:', error);
-      setErrorMessage(error.response?.data?.message || "Failed to add new service.");
+      setMessage("❌ An error occurred while adding the service.");
+      console.error("Frontend Error:", error);
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
-    <div className="add-service-page">
-      <h1>Add New Service</h1>
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
-
-      <form onSubmit={handleSubmit} className="add-service-form">
-        <div className="form-group">
-          <label>Service Title *</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            placeholder="e.g. Haircut & Styling"
-          />
+    <div className="admin-page">
+      <div className="admin-container">
+        <div className="admin-header">
+          <h1>Add New Service</h1>
+          <p>Add a new beauty service to the database</p>
         </div>
 
-        <div className="form-group">
-          <label>Category *</label>
-          <input
-            type="text"
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-            placeholder="e.g. Hair, Nails, Skincare"
-          />
-        </div>
+        {successMessage && <div className="success-message">{successMessage}</div>}
+        {message && <div className="error-message">{message}</div>}
 
-        <div className="form-group">
-          <label>Price ($) *</label>
-          <input
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            required
-            placeholder="e.g. 50"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            rows="4"
-            placeholder="Describe the service..."
-          ></textarea>
-        </div>
-
-        <button type="submit" className="submit-btn" disabled={submitting}>
-          {submitting ? "Adding..." : "Add Service"}
-        </button>
-      </form>
+        <form onSubmit={handleSubmit} className="admin-form">
+          <div className="form-group">
+            <label>Service Title *</label>
+            <input type="text" name="title" value={formData.title} onChange={handleChange} placeholder="e.g., Bridal Hair Styling" required />
+          </div>
+          <div className="form-group">
+            <label>Category *</label>
+            <select name="category" value={formData.category} onChange={handleChange} required>
+              <option value="hair">Hair Styling</option>
+              <option value="makeup">Makeup</option>
+              <option value="wax">Wax</option>
+              <option value="nails">Nails</option>
+            </select>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label>From Price ($) *</label>
+              <input type="number" name="fromPrice" value={formData.fromPrice} onChange={handleChange} placeholder="50" min="0" required />
+            </div>
+            <div className="form-group">
+              <label>Full Price ($) *</label>
+              <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="80" min="0" required />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Duration *</label>
+              <input type="text" name="duration" value={formData.duration} onChange={handleChange} placeholder="e.g., 45min" required />
+            </div>
+            <div className="form-group">
+              <label>Session Price ($) *</label>
+              <input type="number" name="sessionPrice" value={formData.sessionPrice} onChange={handleChange} placeholder="50" min="0" required />
+            </div>
+          </div>
+          <div className="form-group">
+            <label>Image URL (optional)</label>
+            <input type="text" name="image" value={formData.image} onChange={handleChange} placeholder="https://example.com/image.jpg" />
+          </div>
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? "Adding Service..." : "Add Service"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
 
-export default AddService;
+export default AdminService;

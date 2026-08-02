@@ -6,7 +6,7 @@ import "../styles/Employees.css";
 function Employees() {
   const navigate = useNavigate();
   const [employeesData, setEmployeesData] = useState({});
-  const [loading, setLoading] = useState(true); // ✅ استخدميه
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchEmployees();
@@ -28,7 +28,7 @@ function Employees() {
     } catch (error) {
       console.error('Error fetching employees:', error);
     } finally {
-      setLoading(false); // ✅ أضيفي هذا السطر
+      setLoading(false);
     }
   };
 

@@ -1,100 +1,90 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import api from "../api";
 import "../styles/Contact.css";
 
 function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
-  const [submitting, setSubmitting] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    setErrorMessage("");
+    setLoading(true);
     setSuccessMessage("");
+    setErrorMessage("");
 
     try {
-      await api.post('/api/contact', formData);
-      setSuccessMessage("Thank you! Your message has been sent successfully.");
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      const response = await api.post('/api/contact', formData);
+      if (response.data.success) {
+        setSuccessMessage("✅ Thank you for your message! We'll get back to you soon.");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        setTimeout(() => { setSuccessMessage(""); }, 4000);
+      }
     } catch (error) {
-      console.error('Error sending message:', error);
-      setErrorMessage(error.response?.data?.message || "Failed to send message. Please try again.");
+      setErrorMessage("❌ An error occurred. Please try again later.");
+      console.error("Contact form error:", error);
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
     <div className="contact-page">
-      <h1>Contact Us</h1>
-      {successMessage && <div className="success-message">{successMessage}</div>}
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      <div className="contact-header">
+        <h1>Get In Touch</h1>
+        <p>We'd love to hear from you</p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="contact-form">
-        <div className="form-group">
-          <label>Your Name *</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            placeholder="Enter your name"
-          />
+      <div className="contact-container">
+        <div className="contact-info">
+          <div className="info-item">
+            <div className="info-icon">📍</div>
+            <h3>Visit Us</h3>
+            <p>Hamra Street, Beirut, Lebanon</p>
+          </div>
+          <div className="info-item">
+            <div className="info-icon">📞</div>
+            <h3>Call Us</h3>
+            <p>+961 1 234 567</p>
+          </div>
+          <div className="info-item">
+            <div className="info-icon">✉️</div>
+            <h3>Email Us</h3>
+            <p>info@miakelle.com</p>
+          </div>
         </div>
 
-        <div className="form-group">
-          <label>Your Email *</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            placeholder="Enter your email"
-          />
-        </div>
+        <form onSubmit={handleSubmit} className="contact-form">
+          {successMessage && <div className="success-message">{successMessage}</div>}
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-        <div className="form-group">
-          <label>Subject</label>
-          <input
-            type="text"
-            name="subject"
-            value={formData.subject}
-            onChange={handleChange}
-            placeholder="Enter subject"
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Message *</label>
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            rows="5"
-            required
-            placeholder="Write your message here..."
-          ></textarea>
-        </div>
-
-        <button type="submit" className="submit-btn" disabled={submitting}>
-          {submitting ? "Sending..." : "Send Message"}
-        </button>
-      </form>
+          <div className="form-group">
+            <label>Your Name</label>
+            <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>Subject</label>
+            <input type="text" name="subject" value={formData.subject} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>Message</label>
+            <textarea name="message" value={formData.message} onChange={handleChange} rows="5" required></textarea>
+          </div>
+          
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? "Sending..." : "Send Message"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
