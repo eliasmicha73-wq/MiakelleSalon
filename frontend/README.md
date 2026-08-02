@@ -1,7 +1,7 @@
 # Miakelle Salon - Beauty Booking System
 
 ## Project Description
-A complete beauty salon booking system where users can browse services, book appointments with specialists, and contact the salon. Built with React.js frontend and Node.js backend.
+A complete beauty salon booking system where users can browse service, book appointments with specialists, and contact the salon. Built with React.js frontend and Node.js backend.
 
 ## Technologies Used
 - **Frontend:** ReactJS, CSS3
@@ -11,11 +11,11 @@ A complete beauty salon booking system where users can browse services, book app
 - **Deployment:** Render (Backend), Vercel (Frontend)
 
 ## Features
-- ✅ Browse beauty services (Hair, Makeup, Wax, Nails)
+- ✅ Browse beauty service (Hair, Makeup, Wax, Nails)
 - ✅ Book appointments with specific specialists
 - ✅ Contact form
 - ✅ User authentication (Login/Signup)
-- ✅ Admin panel to add services
+- ✅ Admin panel to add service
 - ✅ Responsive design
 
 ## Setup Instructions

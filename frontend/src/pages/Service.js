@@ -4,7 +4,7 @@ import api from "../api";
 import "../styles/Service.css";
 
 const categories = [
-  { id: "all", name: "All Services", icon: "✨" },
+  { id: "all", name: "All Service", icon: "✨" },
   { id: "hair", name: "Hair Styling", icon: "✂️" },
   { id: "makeup", name: "Makeup", icon: "💋" },
   { id: "wax", name: "Wax", icon: "✨" },
@@ -13,12 +13,12 @@ const categories = [
 
 function Service() {
   const [activeCategory, setActiveCategory] = useState("all");
-  const [services, setServices] = useState([]);
+  const [service, setService] = useState([]);
   const navigate = useNavigate();
   const [searchParams] = useSearchParams(); 
 
   useEffect(() => {
-    fetchServices();
+    fetchService();
     const categoryFromUrl = searchParams.get('category');
     if (categoryFromUrl && ['hair', 'makeup', 'wax', 'nails'].includes(categoryFromUrl)) {
       setActiveCategory(categoryFromUrl);
@@ -27,18 +27,18 @@ function Service() {
     }
   }, [searchParams]); 
 
-  const fetchServices = async () => {
+  const fetchService = async () => {
     try {
       const response = await api.get('/api/service');
-      setServices(response.data.data || []);
+      setService(response.data.data || []);
     } catch (error) {
       console.error('Error fetching service:', error);
     }
   };
 
-  const filteredServices = activeCategory === "all"
-    ? services
-    : services.filter(s => s.category.trim() === activeCategory.trim());
+  const filteredService = activeCategory === "all"
+    ? service
+    : service.filter(s => s.category.trim() === activeCategory.trim());
     
   const handleBookService = (serviceId, serviceName, serviceCategory) => {
     navigate("/booking", { 
@@ -73,8 +73,8 @@ function Service() {
         ))}
       </div>
 
-      <div className="services-grid">
-        {filteredServices.map(service => (
+      <div className="service-grid">
+        {filteredService.map(service => (
           <div key={service.id} className="service-card">
             <div className="service-image">
               <img 

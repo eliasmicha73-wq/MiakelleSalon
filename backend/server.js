@@ -21,12 +21,12 @@ app.use(cors({
 app.use(express.json());
 
 // ==========================================
-// 1. Services APIs
+// 1. Service APIs
 // ==========================================
-app.get('/api/services', async (req, res) => {
+app.get('/api/service', async (req, res) => {
   try {
     const { category } = req.query;
-    let query = 'SELECT * FROM services';
+    let query = 'SELECT * FROM service';
     let params = [];
     
     if (category && category !== 'all') {
@@ -53,7 +53,7 @@ app.get('/api/services', async (req, res) => {
   }
 });
 
-app.post('/api/services', async (req, res) => {
+app.post('/api/service', async (req, res) => {
   try {
     const { title, category, fromPrice, price, duration, sessionPrice, image } = req.body;
     
@@ -62,7 +62,7 @@ app.post('/api/services', async (req, res) => {
     }
 
     const [result] = await db.query(
-      `INSERT INTO services (title, category, from_price, price, duration, session_price, image) 
+      `INSERT INTO service (title, category, from_price, price, duration, session_price, image) 
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [title, category, fromPrice, price, duration, sessionPrice, image || '']
     );
@@ -73,7 +73,7 @@ app.post('/api/services', async (req, res) => {
       id: result.insertId 
     });
   } catch (error) {
-    console.error("Database Error in POST /api/services:", error); 
+    console.error("Database Error in POST /api/service:", error); 
     res.status(500).json({ success: false, message: error.message });
   }
 });

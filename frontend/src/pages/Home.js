@@ -22,7 +22,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="services-preview">
+      <section className="service-preview">
         <h2 className="section-title">Our Signature Services</h2>
         <p className="section-subtitle">Discover our most loved treatments</p>
         <div className="preview-grid">

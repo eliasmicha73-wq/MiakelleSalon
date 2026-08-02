@@ -9,9 +9,9 @@ function Booking() {
   
   const { preselectedService, serviceCategory, preselectedEmployee, employeeDepartment } = location.state || {};
 
-  const [services, setServices] = useState([]);
+  const [service, setService] = useState([]);
   const [employees, setEmployees] = useState([]);
-  const [filteredServices, setFilteredServices] = useState([]);
+  const [filteredService, setFilteredService] = useState([]);
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   
   const [formData, setFormData] = useState({
@@ -26,16 +26,16 @@ function Booking() {
   useEffect(() => { fetchData(); }, []);
 
   useEffect(() => {
-    if (services.length > 0 && employees.length > 0) { filterData(); }
-  }, [services, employees, serviceCategory, employeeDepartment]);
+    if (service.length > 0 && employees.length > 0) { filterData(); }
+  }, [service, employees, serviceCategory, employeeDepartment]);
 
   const fetchData = async () => {
     try {
-      const [servicesRes, employeesRes] = await Promise.all([
-        api.get('/api/services'),
+      const [serviceRes, employeesRes] = await Promise.all([
+        api.get('/api/service'),
         api.get('/api/employees')
       ]);
-      setServices(servicesRes.data.data || []);
+      setService(serviceRes.data.data || []);
       setEmployees(employeesRes.data.data || []);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -46,11 +46,11 @@ function Booking() {
   };
 
   const filterData = () => {
-    let finalServices = [...services];
+    let finalService = [...service];
     let finalEmployees = [...employees];
     if (serviceCategory) finalEmployees = employees.filter(emp => emp.department === serviceCategory);
-    if (employeeDepartment) finalServices = services.filter(svc => svc.category === employeeDepartment);
-    setFilteredServices(finalServices);
+    if (employeeDepartment) finalService = service.filter(svc => svc.category === employeeDepartment);
+    setFilteredService(finalService);
     setFilteredEmployees(finalEmployees);
   };
 
@@ -59,7 +59,7 @@ function Booking() {
     setFormData(prev => ({ ...prev, [name]: value }));
 
     if (name === 'service') {
-      const selectedService = services.find(s => s.id === value);
+      const selectedService = service.find(s => s.id === value);
       if (selectedService) {
         const filteredEmps = employees.filter(emp => emp.department === selectedService.category);
         setFilteredEmployees(filteredEmps);
@@ -71,8 +71,8 @@ function Booking() {
     if (name === 'employee') {
       const selectedEmployee = employees.find(emp => emp.id === value);
       if (selectedEmployee) {
-        const filteredSvcs = services.filter(svc => svc.category === selectedEmployee.department);
-        setFilteredServices(filteredSvcs);
+        const filteredSvcs = service.filter(svc => svc.category === selectedEmployee.department);
+        setFilteredService(filteredSvcs);
         if (formData.service && !filteredSvcs.find(svc => svc.id === formData.service)) {
           setFormData(prev => ({ ...prev, service: '' }));
         }
@@ -126,7 +126,7 @@ function Booking() {
               <label>Select Service *</label>
               <select name="service" value={formData.service} onChange={handleChange} required>
                 <option value="">Choose a service</option>
-                {filteredServices.map(service => (
+                {filteredService.map(service => (
                   <option key={service.id} value={service.id}>{service.title} - ${service.price}</option>
                 ))}
               </select>

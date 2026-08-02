@@ -122,8 +122,8 @@
   font-style: italic;
 }
 
-/* ===== Services Preview ===== */
-.services-preview {
+/* ===== Service Preview ===== */
+.service-preview {
   padding: 80px 60px;
   background: white;
 }
@@ -432,7 +432,7 @@
   .hero h1 { font-size: 2.5rem; }
   .hero p { font-size: 1.1rem; }
   
-  .services-preview,
+  .service-preview,
   .promo-video-section,
   .testimonials,
   .team-preview,

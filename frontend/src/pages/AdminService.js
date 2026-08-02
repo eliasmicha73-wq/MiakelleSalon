@@ -21,7 +21,7 @@ function AdminService() {
     setSuccessMessage("");
 
     try {
-      const response = await api.post('/api/services', formData);
+      const response = await api.post('/api/service', formData);
       if (response.data.success) {
         setSuccessMessage("✅ Service added successfully!");
         setFormData({ title: "", category: "hair", fromPrice: "", price: "", duration: "", sessionPrice: "", image: "" });

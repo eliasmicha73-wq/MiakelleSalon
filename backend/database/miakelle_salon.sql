@@ -21,12 +21,12 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS contact_messages;
 DROP TABLE IF EXISTS bookings;
 DROP TABLE IF EXISTS employees;
-DROP TABLE IF EXISTS services;
+DROP TABLE IF EXISTS service;
 
 -- ============================================
--- 1. Services Table 
+-- 1. Service Table 
 -- ============================================
-CREATE TABLE services (
+CREATE TABLE service (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     category ENUM('hair', 'makeup', 'wax', 'nails') NOT NULL,
@@ -65,7 +65,7 @@ CREATE TABLE bookings (
     notes TEXT,
     status ENUM('pending', 'confirmed', 'cancelled') DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (service_id) REFERENCES services(id) ON DELETE SET NULL,
+    FOREIGN KEY (service_id) REFERENCES service(id) ON DELETE SET NULL,
     FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE SET NULL
 );
 
@@ -82,10 +82,10 @@ CREATE TABLE contact_messages (
 );
 
 -- ============================================
--- Initial Service Data Entry (28 services)
+-- Initial Service Data Entry (28 service)
 -- ============================================
-INSERT INTO services (title, category, from_price, price, duration, session_price, image) VALUES
--- Hair Styling (10 services)
+INSERT INTO service (title, category, from_price, price, duration, session_price, image) VALUES
+-- Hair Styling (10 service)
 ('Brushing', 'hair', 50, 80, '30min', 50, 'WhatsApp Image 2026-07-27 at 11.02.44 PM.jpeg'),
 ('Wavy', 'hair', 70, 100, '45min', 70, 'WhatsApp Image 2026-07-27 at 11.02.19 PM.jpeg'),
 ('Haircut', 'hair', 100, 150, '45min', 100, 'WhatsApp Image 2026-07-27 at 9.41.55 PM.jpeg'),
@@ -97,13 +97,13 @@ INSERT INTO services (title, category, from_price, price, duration, session_pric
 ('Half-up Hair', 'hair', 90, 140, '45min', 90, 'WhatsApp Image 2026-07-27 at 9.41.57 PM.jpeg'),
 ('Bride Hair', 'hair', 300, 500, '120min', 300, 'https://th.bing.com/th/id/OIP.J6IWq29KB0vHGjQJkf0XtQHaJ4?w=208&h=277&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3'),
 
--- Makeup (4 services)
+-- Makeup (4 service)
 ('Bridal Makeup', 'makeup', 400, 600, '120min', 400, 'https://tse3.mm.bing.net/th/id/OIP.cDr2qLGj8Y3uw35B8tvNSAHaLH?r=0&pid=ImgDet&w=184&h=276&c=7&dpr=1.3&o=7&rm=3'),
 ('Simple Makeup', 'makeup', 150, 200, '45min', 150, 'WhatsApp Image 2026-07-27 at 9.41.51 PM.jpeg'),
 ('Heavy Makeup', 'makeup', 250, 350, '90min', 250, 'WhatsApp Image 2026-07-27 at 9.41.58 PM.jpeg'),
 ('Sad Makeup', 'makeup', 200, 300, '60min', 200, 'https://img-s-msn-com.akamaized.net/tenant/amp/entityid/AA1YP08V.img?w=1200&h=624&m=4&q=99'),
 
--- Wax (8 services)
+-- Wax (8 service)
 ('Wax Arms', 'wax', 80, 120, '30min', 80, 'https://tse1.mm.bing.net/th/id/OIP.lBQ479DTqcWF2phj4IlYWAHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),
 ('Under Arms', 'wax', 60, 90, '20min', 60, 'https://th.bing.com/th/id/R.d4e11caf8af2c453b8ddffea28668386?rik=cMTzqKYK9cluaQ&riu=http%3a%2f%2friseandshinesalon.com%2fcdn%2fshop%2ffiles%2f20241006-094616_0000.png%3fv%3d1728225987&ehk=ZC4bT0PJnxRwPwT8%2fs7JrWnJGrxbI0BbTkJfI2mxTNU%3d&risl=&pid=ImgRaw&r=0'),
 ('Leg Waxing', 'wax', 100, 150, '45min', 100, 'https://tse2.mm.bing.net/th/id/OIP.SwJcLviXlXkodkCDuxHhkAHaE8?r=0&w=780&h=520&rs=1&pid=ImgDetMain&o=7&rm=3'),
@@ -113,7 +113,7 @@ INSERT INTO services (title, category, from_price, price, duration, session_pric
 ('Back Waxing', 'wax', 90, 130, '40min', 90, 'https://tresswellness.com/cdn/shop/articles/Article_Banner_7297aabd-67ef-4120-bf26-bb3dc76e9809.jpg?crop=center&height=630&v=1746085508&width=1200'),
 ('Bridal Wax', 'wax', 250, 400, '90min', 250, 'https://tse3.mm.bing.net/th/id/OIP.sJzMlaHSCqiGRe_eQpmvTwHaE8?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),
 
--- Nails (6 services)
+-- Nails (6 service)
 ('Manicure', 'nails', 80, 120, '45min', 80, 'https://tse1.mm.bing.net/th/id/OIP.5b15YgeyYvBt_Pz2qfz0KAHaJ7?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),
 ('Pedicure', 'nails', 90, 130, '50min', 90, 'https://tse1.mm.bing.net/th/id/OIP.BfAJo7uPVOg_sh-wHahM1QHaHa?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),
 ('Gel', 'nails', 120, 180, '60min', 120, 'https://tse1.mm.bing.net/th/id/OIP.l-Iju5D3yuxg0tHqTJ7CVwAAAA?r=0&rs=1&pid=ImgDetMain&o=7&rm=3'),

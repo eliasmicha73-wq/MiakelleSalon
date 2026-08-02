@@ -1,7 +1,7 @@
 # 💇‍♀️ Miakelle Beauty Salon - Web Application
 
 ## 📌 Project Description
-A comprehensive web application for Miakelle Beauty Salon, allowing clients to browse services, view expert employees, book appointments, and contact the salon. The system includes an admin interface to manage services dynamically and secure user authentication.
+A comprehensive web application for Miakelle Beauty Salon, allowing clients to browse service, view expert employees, book appointments, and contact the salon. The system includes an admin interface to manage service dynamically and secure user authentication.
 
 ## 🛠️ Technologies Used
 - **Frontend:** React.js, React Router, Axios, CSS3 (Responsive Design)
