@@ -7,8 +7,15 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5000'],
-  credentials: true
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173', 
+    'https://miakelle.netlify.app', 
+    'https://miakelle-salon-backend.onrender.com' 
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
