@@ -27,14 +27,25 @@ function Service() {
     }
   }, [searchParams]); 
 
-  const fetchService = async () => {
-    try {
-      const response = await api.get('/api/service');
-      setService(response.data.data || []);
-    } catch (error) {
-      console.error('Error fetching service:', error);
+const fetchServices = async () => {
+  try {
+    const API_URL = process.env.REACT_APP_API_URL || 'https://miakelle-salon-backend.onrender.com/api';
+    console.log('🔄 Trying to fetch from:', API_URL + '/service');
+    
+    const response = await fetch(API_URL + '/service');
+    const data = await response.json();
+    
+    console.log('✅ Response received:', data);
+    
+    if (data.success) {
+      setServices(data.data || []);
+    } else {
+      console.error('❌ API returned success: false');
     }
-  };
+  } catch (error) {
+    console.error('❌ Fetch error:', error);
+  }
+};
 
   const filteredService = activeCategory === "all"
     ? service
