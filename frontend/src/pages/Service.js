@@ -27,25 +27,43 @@ function Service() {
     }
   }, [searchParams]); 
 
-const fetchService = async () => {
-  try {
-    const API_URL = process.env.REACT_APP_API_URL || 'https://miakelle-salon-backend.onrender.com/api';
-    console.log('🔄 Trying to fetch from:', API_URL + '/service');
-    
-    const response = await fetch(API_URL + '/service');
-    const data = await response.json();
-    
-    console.log('✅ Response received:', data);
-    
-    if (data.success) {
-      setService(data.data || []);
-    } else {
-      console.error('❌ API returned success: false');
+  const fetchServices = async () => {
+    try {
+      // 1. تعريف الرابط المباشر للسيرفر (بدون الاعتماد على api.js أو .env)
+      const BACKEND_URL = 'https://miakelle-salon-backend.onrender.com'; 
+      
+      console.log('🔄 Trying to connect to:', BACKEND_URL + '/api/services');
+
+      // 2. استخدام fetch العادية لضمان وصول الطلب
+      const response = await fetch(`${BACKEND_URL}/api/services`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      // 3. التأكد إنو الرد ناجح (Status 200)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Data Received Successfully:', result);
+
+      // 4. حفظ الداتا (لأن الـ backend بيرجعها جوا object اسمه data)
+      if (result.success && result.data) {
+        setServices(result.data);
+      } else {
+        console.warn('⚠️ Response format issue:', result);
+        setServices([]);
+      }
+
+    } catch (error) {
+      console.error('❌ CRITICAL ERROR:', error.message);
+      // هاد السطر مهم جداً عشان تعرف شو نوع الخطأ بالضبط
+      console.error('❌ Full Error Object:', error); 
     }
-  } catch (error) {
-    console.error('❌ Fetch error:', error);
-  }
-};
+  };
 
   const filteredService = activeCategory === "all"
     ? service
