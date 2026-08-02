@@ -27,15 +27,15 @@ function Service() {
     }
   }, [searchParams]); 
 
-  const fetchServices = async () => {
+  const fetchService = async () => {
     try {
       // 1. تعريف الرابط المباشر للسيرفر (بدون الاعتماد على api.js أو .env)
       const BACKEND_URL = 'https://miakelle-salon-backend.onrender.com'; 
       
-      console.log('🔄 Trying to connect to:', BACKEND_URL + '/api/services');
+      console.log('🔄 Trying to connect to:', BACKEND_URL + '/api/service');
 
       // 2. استخدام fetch العادية لضمان وصول الطلب
-      const response = await fetch(`${BACKEND_URL}/api/services`, {
+      const response = await fetch(`${BACKEND_URL}/api/service`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -52,10 +52,10 @@ function Service() {
 
       // 4. حفظ الداتا (لأن الـ backend بيرجعها جوا object اسمه data)
       if (result.success && result.data) {
-        setServices(result.data);
+        setService(result.data);
       } else {
         console.warn('⚠️ Response format issue:', result);
-        setServices([]);
+        setService([]);
       }
 
     } catch (error) {
