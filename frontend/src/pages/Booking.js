@@ -18,7 +18,7 @@ function Booking() {
     name: '', phone: '', service: preselectedService || '', employee: preselectedEmployee || '', date: '', time: '', notes: ''
   });
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // ✅ أبقينا المتغير
   const [submitting, setSubmitting] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -28,7 +28,7 @@ function Booking() {
   }, []);
 
   useEffect(() => {
-    if (services.length > 0 || employees.length > 0) { 
+    if (services.length > 0 && employees.length > 0) { 
       filterData(); 
     }
   }, [services, employees, serviceCategory, employeeDepartment]);
@@ -39,20 +39,13 @@ function Booking() {
         api.get('/api/services'),
         api.get('/api/employees')
       ]);
-      
-      // حماية جلب البيانات لضمان القراءة بجميع الأشكال القادمة من الـ Backend
-      const fetchedServices = servicesRes.data.data || servicesRes.data || [];
-      const fetchedEmployees = employeesRes.data.data || employeesRes.data || [];
-
-      setServices(fetchedServices);
-      setEmployees(fetchedEmployees);
-      setFilteredServices(fetchedServices);
-      setFilteredEmployees(fetchedEmployees);
+      setServices(servicesRes.data.data || []);
+      setEmployees(employeesRes.data.data || []);
     } catch (error) {
       console.error('Error fetching data:', error);
       setErrorMessage("Error loading data from backend.");
     } finally {
-      setLoading(false);
+      setLoading(false); // ✅ استخدمنا المتغير هنا
     }
   };
 
@@ -70,21 +63,21 @@ function Booking() {
     setFormData(prev => ({ ...prev, [name]: value }));
 
     if (name === 'service') {
-      const selectedService = services.find(s => (s.id || s._id) === value);
+      const selectedService = services.find(s => s.id === value);
       if (selectedService) {
         const filteredEmps = employees.filter(emp => emp.department === selectedService.category);
         setFilteredEmployees(filteredEmps);
-        if (formData.employee && !filteredEmps.find(emp => (emp.id || emp._id) === formData.employee)) {
+        if (formData.employee && !filteredEmps.find(emp => emp.id === formData.employee)) {
           setFormData(prev => ({ ...prev, employee: '' }));
         }
       }
     }
     if (name === 'employee') {
-      const selectedEmployee = employees.find(emp => (emp.id || emp._id) === value);
+      const selectedEmployee = employees.find(emp => emp.id === value);
       if (selectedEmployee) {
         const filteredSvcs = services.filter(svc => svc.category === selectedEmployee.department);
         setFilteredServices(filteredSvcs);
-        if (formData.service && !filteredSvcs.find(svc => (svc.id || svc._id) === formData.service)) {
+        if (formData.service && !filteredSvcs.find(svc => svc.id === formData.service)) {
           setFormData(prev => ({ ...prev, service: '' }));
         }
       }
@@ -138,9 +131,7 @@ function Booking() {
               <select name="service" value={formData.service} onChange={handleChange} required>
                 <option value="">Choose a service</option>
                 {filteredServices.map(service => (
-                  <option key={service.id || service._id} value={service.id || service._id}>
-                    {service.title || service.name} - ${service.price}
-                  </option>
+                  <option key={service.id} value={service.id}>{service.title} - ${service.price}</option>
                 ))}
               </select>
             </div>
@@ -149,9 +140,7 @@ function Booking() {
               <select name="employee" value={formData.employee} onChange={handleChange}>
                 <option value="">No preference (Any available specialist)</option>
                 {filteredEmployees.map(emp => (
-                  <option key={emp.id || emp._id} value={emp.id || emp._id}>
-                    {emp.name} ({emp.role || emp.department})
-                  </option>
+                  <option key={emp.id} value={emp.id}>{emp.name} ({emp.role})</option>
                 ))}
               </select>
             </div>

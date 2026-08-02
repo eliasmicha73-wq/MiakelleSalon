@@ -14,9 +14,7 @@ function Services() {
   const fetchServices = async () => {
     try {
       const response = await api.get('/api/services');
-      // حماية جلب البيانات لضمان القراءة بجميع الأشكال القادمة من الـ Backend
-      const data = response.data.data || response.data || [];
-      setServices(data);
+      setServices(response.data.data || []);
     } catch (error) {
       console.error('Error fetching services:', error);
       setErrorMessage("Error loading services from backend.");
@@ -34,8 +32,8 @@ function Services() {
       {!loading && !errorMessage && (
         <div className="services-grid">
           {services.map((service) => (
-            <div key={service.id || service._id} className="service-card">
-              <h3>{service.title || service.name}</h3>
+            <div key={service.id} className="service-card">
+              <h3>{service.title}</h3>
               <p>{service.description}</p>
               <span className="price">${service.price}</span>
             </div>
